@@ -5,7 +5,7 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use tokio::{spawn, time::sleep};
 
 const SLEEP: Duration = Duration::from_secs(1);
-const TIMESTAMP: Duration = Duration::from_secs(1767214800);
+const TIMESTAMP: Duration = Duration::from_secs(1798750800); // 2027-01-01
 
 pub(super) fn start() {
     spawn(run());

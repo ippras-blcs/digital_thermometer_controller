@@ -7,7 +7,7 @@ use tokio::{
     sync::{mpsc::Sender, oneshot},
 };
 use tokio_modbus::{
-    prelude::*,
+    prelude::{ExceptionCode, Request, Response},
     server::{
         Service,
         tcp::{Server, accept_tcp_connection},
@@ -20,7 +20,7 @@ static SOCKET_ADDR: LazyLock<SocketAddr> = LazyLock::new(|| "0.0.0.0:5502".parse
 
 pub(super) async fn run(temperature_sender: Sender<TemperatureRequest>) -> Result<()> {
     let server = Server::new(TcpListener::bind(*SOCKET_ADDR).await?);
-    let new_service = |_socket_addr| Ok(Some(ExampleService::new(temperature_sender.clone())));
+    let new_service = |_socket_addr| Ok(Some(TemperatureService::new(temperature_sender.clone())));
     let on_connected = |stream, socket_addr| async move {
         accept_tcp_connection(stream, socket_addr, new_service)
     };
@@ -29,17 +29,18 @@ pub(super) async fn run(temperature_sender: Sender<TemperatureRequest>) -> Resul
     Ok(())
 }
 
-struct ExampleService {
+/// Temperature service
+struct TemperatureService {
     temperature_sender: Sender<TemperatureRequest>,
 }
 
-impl ExampleService {
+impl TemperatureService {
     fn new(temperature_sender: Sender<TemperatureRequest>) -> Self {
         Self { temperature_sender }
     }
 }
 
-impl Service for ExampleService {
+impl Service for TemperatureService {
     type Request = Request<'static>;
     type Response = Response;
     type Exception = ExceptionCode;
