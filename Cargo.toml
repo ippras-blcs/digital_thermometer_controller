@@ -11,12 +11,12 @@ harness = false # do not use the built in cargo test harness -> resolve rust-ana
 [dependencies]
 anyhow = "1.0.97"
 esp-idf-svc = { version = "0.51.0", features = ["critical-section", "embassy-time-driver", "embassy-sync"] }
-heapless = "0.8.0"
-log = "0.4.27"
-thermometer = { git = "https://github.com/ippras-blca/thermometer" }
-thiserror = "2.0.12"
-tokio = { version = "1.44.1", features = ["rt", "net", "time", "io-util", "macros"] }
-tokio-modbus = { version = "0.16.1", features = ["tcp-server"] }
+heapless = "0.9.2"
+log = "0.4.29"
+thermometer = { git = "https://github.com/ippras-blca/thermometer", branch = "update" }
+thiserror = "2.0.18"
+tokio = { version = "1.49.0", features = ["rt", "net", "time", "io-util", "macros"] }
+tokio-modbus = { version = "0.17.0", features = ["tcp-server"] }
 
 # bincode = "2.0.1"
 # async-channel = "2.3.1"
@@ -24,7 +24,7 @@ tokio-modbus = { version = "0.16.1", features = ["tcp-server"] }
 # led = { git = "https://github.com/ippras-blca/led" }
 
 [build-dependencies]
-embuild = "0.33.0"
+embuild = "0.33.1"
 
 [features]
 default = []
